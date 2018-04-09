@@ -5,6 +5,7 @@ var LEFT = '37';
 var RIGHT = '39';
 var DOWN = '40';
 var UP = '38';
+var direction = LEFT;
 
 Character fatguy = new Character();
 
@@ -26,28 +27,26 @@ void setup() {
     right[i] = loadImage("rtmp-" + i + ".gif");
   }
 
-    //noLoop();
+  ;
+
 }
 
 void draw() {
-  var direction;
-
   background(BACKGROUND_COLOR);
 
   if (keyPressed) {
     console.log("Pressed a key");
-    if(keyCode == LEFT) {
+    if (keyCode == LEFT) {
       direction = LEFT;
-      fatguy.drawCharacter(LEFT);
       fatguy.updateCharacterLeft();
-    }
-    else if(keyCode == RIGHT){
+    } else if (keyCode == RIGHT) {
       direction = RIGHT;
-      fatguy.drawCharacter(RIGHT);
-      fatguy.updateCharacterRight();
-  }
-  }
 
+      fatguy.updateCharacterRight();
+    }
+
+  }
+  fatguy.drawCharacter(direction);
 
 
 }
@@ -66,11 +65,10 @@ class Character {
   }
 
   void drawCharacter(var direction) {
-    if(direction == LEFT){
+    if (direction == LEFT) {
       image(left[characterNumber], xPos, 475, 100, 100);
-    }
-    else if(direction == RIGHT){
-      image(right[characterNumber],xPos,475,100,100);
+    } else if (direction == RIGHT) {
+      image(right[characterNumber], xPos, 475, 100, 100);
     }
   }
 
