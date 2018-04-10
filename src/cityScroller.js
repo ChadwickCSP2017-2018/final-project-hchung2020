@@ -1,6 +1,6 @@
 var WINDOW_WIDTH = screen.width;
 var WINDOW_HEIGHT = 600;
-var BACKGROUND_COLOR = color(255);
+var BACKGROUND_COLOR = color(95, 97, 255);
 var LEFT = '37';
 var RIGHT = '39';
 var DOWN = '40';
@@ -11,10 +11,17 @@ Character fatguy = new Character();
 Skyline tallSkyline = new Skyline(1, 250, 350, color(220));
 Skyline middleSkyline = new Skyline(3, 80, 250, color(180));
 Skyline shortSkyline = new Skyline(5, 10, 100, color(100));
+Moon moon = new Moon();
+Cloud cloud1 = new Cloud(400, 100);
+Cloud cloud2 = new Cloud(600, 150);
+Cloud cloud3 = new Cloud(1200, 130);
+Cloud cloud4 = new Cloud(150, 200);
 
 
 /* @pjs preload= "tmp-0.gif, tmp-1.gif, tmp-2.gif, tmp-3.gif, tmp-4.gif, tmp-5.gif, tmp-6.gif, tmp-7.gif, tmp-8.gif, tmp-9.gif, tmp-10.gif, tmp-11.gif, tmp-12.gif, tmp-13.gif, tmp-14.gif, tmp-15.gif";*/
 /* @pjs preload= "rtmp-0.gif, rtmp-1.gif, rtmp-2.gif, rtmp-3.gif, rtmp-4.gif, rtmp-5.gif, rtmp-6.gif, rtmp-7.gif, rtmp-8.gif, rtmp-9.gif, rtmp-10.gif, rtmp-11.gif, rtmp-12.gif, rtmp-13.gif, rtmp-14.gif, rtmp-15.gif";*/
+/* @pjs preload = "background.jpg" ;*/
+PImage backgroundImage;
 PImage characterImage;
 
 PImage[] left = new PImage[16];
@@ -23,6 +30,7 @@ PImage[] right = new PImage[16];
 void setup() {
   size(WINDOW_WIDTH, WINDOW_HEIGHT); //sets the size of the window
   frameRate(30); //how many times the draw function is called per second
+  backgroundImage = loadImage("background.jpg");
   for (var i = 0; i < left.length; i++) {
     left[i] = loadImage("tmp-" + i + ".gif");
   }
@@ -35,7 +43,19 @@ void setup() {
 }
 
 void draw() {
-  background(225);
+  image(backgroundImage, 0, 0);
+
+  // testBuilding.drawAndUpdate();
+moon.drawAndUpdateMoon();
+cloud1.drawAndUpdateCloud();
+cloud2.drawAndUpdateCloud();
+cloud3.drawAndUpdateCloud();
+cloud4.drawAndUpdateCloud();
+  fill(93, 111, 122);
+  noStroke();
+  rect(0, WINDOW_HEIGHT - 50, WINDOW_WIDTH, 50);
+  stroke(255);
+
   if (keyPressed) {
     console.log("Pressed a key");
     if (keyCode == LEFT) {
@@ -55,6 +75,82 @@ void draw() {
   shortSkyline.drawSkyline();
   fatguy.drawCharacter(direction);
 
+
+}
+
+class Moon {
+  var speed, xPosition, radius;
+
+  /**
+   * Constructs a Building object
+   * @param xPos - the x position of the top left corner of the building
+   */
+
+  Moon() {
+    speed = 0.05;
+    xPosition = 100;
+    radius = 60;
+  }
+
+  void drawAndUpdateMoon() {
+    // var testSpeed = 5;
+    drawMoon();
+    update();
+  }
+
+  /**
+   * Draws a building always attached to the bottom of the screen
+   */
+  void drawMoon() {
+    noStroke();
+    fill(color(255, 255, 204));
+    ellipse(xPosition, 125, radius, radius);
+    stroke();
+  }
+
+  /**
+   * Updates the x position of the building
+   * @param speed - the speed at which the building updates
+   */
+  void update() {
+    xPosition += speed;
+    if (xPosition > WINDOW_WIDTH + 50) {
+      xPosition = -60;
+    }
+  }
+
+
+
+}
+
+class Cloud {
+  var xPosition, yPosition, speed;
+  /* @param xPos */
+
+  Cloud(var x,
+    var y) {
+    xPosition = x;
+    yPosition = y;
+    speed = 0.1;
+  }
+
+  void drawAndUpdateCloud() {
+    drawCloud();
+    updateCloud();
+  }
+
+  void drawCloud() {
+    fill(color(255));
+    ellipse(xPosition, yPosition, 70, 50);
+    ellipse(xPosition + 40, yPosition, 70, 50);
+    ellipse(xPosition + 20, yPosition - 25, 70, 50);
+  }
+  void updateCloud() {
+    xPosition += speed;
+    if (xPosition > WINDOW_WIDTH + 50) {
+      xPosition = -60;
+    }
+  }
 
 }
 
