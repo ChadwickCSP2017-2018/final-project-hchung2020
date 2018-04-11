@@ -20,7 +20,7 @@ Cloud cloud4 = new Cloud(150, 200);
 
 /* @pjs preload= "tmp-0.gif, tmp-1.gif, tmp-2.gif, tmp-3.gif, tmp-4.gif, tmp-5.gif, tmp-6.gif, tmp-7.gif, tmp-8.gif, tmp-9.gif, tmp-10.gif, tmp-11.gif, tmp-12.gif, tmp-13.gif, tmp-14.gif, tmp-15.gif";*/
 /* @pjs preload= "rtmp-0.gif, rtmp-1.gif, rtmp-2.gif, rtmp-3.gif, rtmp-4.gif, rtmp-5.gif, rtmp-6.gif, rtmp-7.gif, rtmp-8.gif, rtmp-9.gif, rtmp-10.gif, rtmp-11.gif, rtmp-12.gif, rtmp-13.gif, rtmp-14.gif, rtmp-15.gif";*/
-/* @pjs preload = "background.jpg" ;*/
+/* @pjs preload = "BackgroundColor.png";*/
 PImage backgroundImage;
 PImage characterImage;
 
@@ -30,7 +30,7 @@ PImage[] right = new PImage[16];
 void setup() {
   size(WINDOW_WIDTH, WINDOW_HEIGHT); //sets the size of the window
   frameRate(30); //how many times the draw function is called per second
-  backgroundImage = loadImage("background.jpg");
+  backgroundImage = loadImage("BackgroundColor.png");
   for (var i = 0; i < left.length; i++) {
     left[i] = loadImage("tmp-" + i + ".gif");
   }
@@ -38,7 +38,6 @@ void setup() {
     right[i] = loadImage("rtmp-" + i + ".gif");
   }
 
-  ;
 
 }
 
@@ -46,11 +45,11 @@ void draw() {
   image(backgroundImage, 0, 0);
 
   // testBuilding.drawAndUpdate();
-moon.drawAndUpdateMoon();
-cloud1.drawAndUpdateCloud();
-cloud2.drawAndUpdateCloud();
-cloud3.drawAndUpdateCloud();
-cloud4.drawAndUpdateCloud();
+  moon.drawAndUpdateMoon();
+  cloud1.drawAndUpdateCloud();
+  cloud2.drawAndUpdateCloud();
+  cloud3.drawAndUpdateCloud();
+  cloud4.drawAndUpdateCloud();
   fill(93, 111, 122);
   noStroke();
   rect(0, WINDOW_HEIGHT - 50, WINDOW_WIDTH, 50);
@@ -77,6 +76,8 @@ cloud4.drawAndUpdateCloud();
 
 
 }
+
+
 
 class Moon {
   var speed, xPosition, radius;
@@ -159,7 +160,7 @@ class Character {
   var characterNumber;
 
   Character() {
-    xPos = 200;
+    xPos = 150;
     characterNumber = 0;
   }
   void moveCharacter() {
@@ -177,11 +178,11 @@ class Character {
 
   void updateCharacterLeft() {
     characterNumber++;
-    if (xPos > WINDOW_WIDTH + 50) {
-      xPos = -50;
+    if (xPos > WINDOW_WIDTH + 5) {
+      xPos = -10;
     }
     if (xPos < -50) {
-      xPos = WINDOW_WIDTH + 50;
+      xPos = WINDOW_WIDTH + 5;
     }
 
     if (characterNumber == left.length) {
@@ -191,11 +192,11 @@ class Character {
   }
   void updateCharacterRight() {
     characterNumber++;
-    if (xPos > WINDOW_WIDTH + 50) {
+    if (xPos > WINDOW_WIDTH + 5) {
       xPos = -50;
     }
-    if (xPos < -50) {
-      xPosition = WINDOW_WIDTH + 50;
+    if (xPos < -5) {
+      xPosition = WINDOW_WIDTH + 5;
     }
     if (characterNumber == right.length) {
       characterNumber = 0;
@@ -283,7 +284,7 @@ class Skyline {
  * Represents a building, providing a way to place a building and move
  * it across the screen.
  */
- class Building {
+class Building {
 
   var xPosition, yPosition, buildingHeight, buildingWidth;
   var buildingColor;
@@ -306,8 +307,8 @@ class Skyline {
     speed = s;
     xPosition = xPos;
     buildingColor = bc;
-    winWidth = buildingWidth/4;
-    winHeight = buildingHeight/2 + 5;
+    winWidth = buildingWidth / 4;
+    winHeight = buildingHeight / 2 + 5;
     winColor = color(239, 242, 247);
   }
 
@@ -324,8 +325,8 @@ class Skyline {
     fill(buildingColor);
     rect(xPosition, WINDOW_HEIGHT - buildingHeight - 50, buildingWidth, buildingHeight);
     fill(winColor);
-    rect(xPosition + (buildingWidth - winWidth)/4, WINDOW_HEIGHT - buildingHeight + (buildingHeight - winHeight)/2 - 50, winWidth, winHeight);
-    rect(xPosition + buildingWidth - winWidth - 15, WINDOW_HEIGHT - buildingHeight + (buildingHeight - winHeight)/2 - 50,winWidth,winHeight);
+    rect(xPosition + (buildingWidth - winWidth) / 4, WINDOW_HEIGHT - buildingHeight + (buildingHeight - winHeight) / 2 - 50, winWidth, winHeight);
+    rect(xPosition + buildingWidth - winWidth - 15, WINDOW_HEIGHT - buildingHeight + (buildingHeight - winHeight) / 2 - 50, winWidth, winHeight);
   }
 
   /**
