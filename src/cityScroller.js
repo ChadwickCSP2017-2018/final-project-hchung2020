@@ -351,12 +351,13 @@ class Danger {
     updateDanger();
   }
   void drawDanger(){
-    image(danger[0], xPosition, yPosition, 250, 200);
+    image(danger[dangerNumber], xPosition, yPosition, 250, 215);
   }
   void updateDanger(){
     dangerNumber++;
     xPosition -= speed;
+    if (dangerNumber == danger.length) {
+      dangerNumber = 0;
+    }
   }
-
-
 }
