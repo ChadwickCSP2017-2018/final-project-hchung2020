@@ -38,7 +38,6 @@ void setup() {
     right[i] = loadImage("rtmp-" + i + ".gif");
   }
 
-
 }
 
 void draw() {
@@ -153,6 +152,10 @@ class Cloud {
     }
   }
 
+
+
+
+
 }
 
 class Character {
@@ -179,9 +182,9 @@ class Character {
   void updateCharacterLeft() {
     characterNumber++;
     if (xPos > WINDOW_WIDTH + 5) {
-      xPos = -10;
+      xPos = -50;
     }
-    if (xPos < -50) {
+    if (xPos < -55) {
       xPos = WINDOW_WIDTH + 5;
     }
 
@@ -195,7 +198,7 @@ class Character {
     if (xPos > WINDOW_WIDTH + 5) {
       xPos = -50;
     }
-    if (xPos < -5) {
+    if (xPos < -55) {
       xPosition = WINDOW_WIDTH + 5;
     }
     if (characterNumber == right.length) {
