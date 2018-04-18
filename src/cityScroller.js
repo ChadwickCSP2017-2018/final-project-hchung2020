@@ -17,6 +17,7 @@ Cloud cloud3 = new Cloud(1200, 130);
 Cloud cloud4 = new Cloud(150, 200);
 Moon moon = new Moon();
 Danger car = new Danger();
+Health characterHealth = new Health();
 
 
 /* @pjs preload= "tmp-0.gif, tmp-1.gif, tmp-2.gif, tmp-3.gif, tmp-4.gif, tmp-5.gif, tmp-6.gif, tmp-7.gif, tmp-8.gif, tmp-9.gif, tmp-10.gif, tmp-11.gif, tmp-12.gif, tmp-13.gif, tmp-14.gif, tmp-15.gif";*/
@@ -53,6 +54,7 @@ void draw() {
   cloud2.drawAndUpdateCloud();
   cloud3.drawAndUpdateCloud();
   cloud4.drawAndUpdateCloud();
+  characterHealth.drawHealthBar();
 
   fill(93, 111, 122);
   noStroke();
@@ -112,21 +114,22 @@ class Character {
   }
 
   void updateCharacterLeft(car) {
-    if (isCollidingWith(car) == false) {
-      characterNumber++;
-      if (xPos > WINDOW_WIDTH + 50) {
-        xPos = -50;
-      }
-      if (xPos < -50) {
-        xPos = WINDOW_WIDTH + 50;
-      }
 
-      if (characterNumber == left.length) {
-        characterNumber = 0;
-      }
-      xPos -= 3
+    characterNumber++;
+    if (xPos > WINDOW_WIDTH + 50) {
+      xPos = -50;
     }
+    if (xPos < -50) {
+      xPos = WINDOW_WIDTH + 50;
+    }
+
+    if (characterNumber == left.length) {
+      characterNumber = 0;
+    }
+    xPos -= 3
+
   }
+
   void updateCharacterRight() {
 
     characterNumber++;
@@ -152,10 +155,9 @@ class Character {
     var dangerY = car.getYPosition();
     distance = sqrt(sq(dangerX - xPos) + sq(dangerY - yPos));
     if (distance <= 100) {
-    return true;
-    console.log("true");
-    }
-    else {
+      return true;
+      console.log("true");
+    } else {
       return false;
     }
   }
@@ -399,10 +401,21 @@ class Danger {
     xPosition -= speed;
 
   }
-  int getXPosition (){
+  int getXPosition() {
     return xPosition;
   }
-  int getYPosition (){
+  int getYPosition() {
     return yPosition;
+  }
+}
+class Health {
+  var healthNumber;
+  Health() {
+    healthNumber = 100;
+  }
+  void drawHealthBar(){
+    stroke();
+    fill(255,0,0);
+    rect(775,10,healthNumber*2,20);
   }
 }
