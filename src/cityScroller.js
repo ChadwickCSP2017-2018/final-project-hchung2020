@@ -10,31 +10,18 @@ var direction = RIGHT;
 Character fatguy = new Character();
 Skyline tallSkyline = new Skyline(1, 250, 350, color(220));
 Skyline middleSkyline = new Skyline(3, 80, 250, color(180));
-<<<<<<< HEAD
 Skyline shortSkyline = new Skyline(5, 10, 100, color(100));
 Moon moon = new Moon();
-=======
-Skyline shortSkyline = new Skyline(5, 50, 100, color(100));
->>>>>>> 1db079c3dbe6f8d2076f301dd9ada52b53666ec0
 Cloud cloud1 = new Cloud(400, 100);
 Cloud cloud2 = new Cloud(600, 150);
 Cloud cloud3 = new Cloud(1200, 130);
 Cloud cloud4 = new Cloud(150, 200);
-<<<<<<< HEAD
-=======
-Moon moon = new Moon();
-Danger car = new Danger();
->>>>>>> 1db079c3dbe6f8d2076f301dd9ada52b53666ec0
-
 
 /* @pjs preload= "tmp-0.gif, tmp-1.gif, tmp-2.gif, tmp-3.gif, tmp-4.gif, tmp-5.gif, tmp-6.gif, tmp-7.gif, tmp-8.gif, tmp-9.gif, tmp-10.gif, tmp-11.gif, tmp-12.gif, tmp-13.gif, tmp-14.gif, tmp-15.gif";*/
 /* @pjs preload= "rtmp-0.gif, rtmp-1.gif, rtmp-2.gif, rtmp-3.gif, rtmp-4.gif, rtmp-5.gif, rtmp-6.gif, rtmp-7.gif, rtmp-8.gif, rtmp-9.gif, rtmp-10.gif, rtmp-11.gif, rtmp-12.gif, rtmp-13.gif, rtmp-14.gif, rtmp-15.gif";*/
-<<<<<<< HEAD
 /* @pjs preload = "BackgroundColor.png";*/
-PImage backgroundImage;
-=======
 /* @pjs preload="car0.gif,car1.gif,car2.gif,car3.gif,car4.gif,car5.gif,car6.gif,car7.gif,car8.gif,car9.gif,car10.gif,car11.gif,car12.gif,car13.gif,car14.gif,car15.gif,car16.gif,car17.gif,car18.gif,car19.gif"*/
->>>>>>> 1db079c3dbe6f8d2076f301dd9ada52b53666ec0
+PImage backgroundImage;
 PImage characterImage;
 
 PImage[] left = new PImage[16];
@@ -58,32 +45,22 @@ void setup() {
 }
 
 void draw() {
-<<<<<<< HEAD
   image(backgroundImage, 0, 0);
 
   // testBuilding.drawAndUpdate();
-=======
-  background(225);
-
->>>>>>> 1db079c3dbe6f8d2076f301dd9ada52b53666ec0
   moon.drawAndUpdateMoon();
   cloud1.drawAndUpdateCloud();
   cloud2.drawAndUpdateCloud();
   cloud3.drawAndUpdateCloud();
   cloud4.drawAndUpdateCloud();
-<<<<<<< HEAD
-=======
-
->>>>>>> 1db079c3dbe6f8d2076f301dd9ada52b53666ec0
   fill(93, 111, 122);
+  // road
   noStroke();
   rect(0, WINDOW_HEIGHT - 50, WINDOW_WIDTH, 50);
   stroke(255);
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 1db079c3dbe6f8d2076f301dd9ada52b53666ec0
+
   if (keyPressed) {
     console.log("Pressed a key");
     if (keyCode == LEFT) {
@@ -106,6 +83,11 @@ void draw() {
 
 }
 
+// class Health {
+//   var health,
+//   rect(WINDOW_WIDTH - 200, 50, 150, 40);
+//   stroke(100);
+// }
 
 
 class Moon {
@@ -466,4 +448,13 @@ class Danger {
       dangerNumber = 0;
     }
   }
+
+  function isCollidingWith(Danger, car) {
+    // distance = sqrt(sq(car.xPosition -= xPos)+= sq(car.yPosition -= yPos));
+    distance = 10;
+    if (distance <= 100) {
+      return true;
+      console.log("true");
+    }
+  }
 }
