@@ -37,7 +37,7 @@ void setup() {
   for (var i = 0; i < right.length; i++) {
     right[i] = loadImage("rtmp-" + i + ".gif");
   }
-  for(var i = 0; i < danger.length;i++) {
+  for (var i = 0; i < danger.length; i++) {
     danger[i] = loadImage("car" + i + ".gif");
   }
 
@@ -46,8 +46,8 @@ void setup() {
 }
 
 void draw() {
-  background(225);
 
+  background(225);
   moon.drawAndUpdateMoon();
   cloud1.drawAndUpdateCloud();
   cloud2.drawAndUpdateCloud();
@@ -64,13 +64,15 @@ void draw() {
     console.log("Pressed a key");
     if (keyCode == LEFT) {
       direction = LEFT;
-      fatguy.updateCharacterLeft();
+      fatguy.updateCharacterLeft(car);
     } else if (keyCode == RIGHT) {
       direction = RIGHT;
       tallSkyline.moveSkyline();
       middleSkyline.moveSkyline();
       shortSkyline.moveSkyline();
       fatguy.updateCharacterRight();
+    } else if (keyCode == UP) {
+      // fatguy.updateCharacterUp();
     }
 
   }
@@ -80,44 +82,53 @@ void draw() {
   fatguy.drawCharacter(direction);
   car.drawAndUpdateDanger();
 
+
 }
 
 class Character {
-  var xPos;
+  var xPos, yPos;
   var characterNumber;
+  var speed;
+  var distance;
 
   Character() {
     xPos = 200;
+    yPos = 475;
     characterNumber = 0;
+    upSpeed = 25;
+    // distance = 100000000;
   }
-  void moveCharacter() {
-    drawCharacter();
-    updateCharacter();
-  }
+  // void moveCharacter() {
+  //   drawCharacter();
+  //   updateCharacter();
+  // }
 
   void drawCharacter(var direction) {
     if (direction == LEFT) {
-      image(left[characterNumber], xPos, 475, 100, 100);
+      image(left[characterNumber], xPos, yPos, 100, 100);
     } else if (direction == RIGHT) {
-      image(right[characterNumber], xPos, 475, 100, 100);
+      image(right[characterNumber], xPos, yPos, 100, 100);
     }
   }
 
-  void updateCharacterLeft() {
-    characterNumber++;
-    if (xPos > WINDOW_WIDTH + 50) {
-      xPos = -50;
-    }
-    if (xPos < -50) {
-      xPos = WINDOW_WIDTH + 50;
-    }
+  void updateCharacterLeft(car) {
+    if (isCollidingWith(car) == false) {
+      characterNumber++;
+      if (xPos > WINDOW_WIDTH + 50) {
+        xPos = -50;
+      }
+      if (xPos < -50) {
+        xPos = WINDOW_WIDTH + 50;
+      }
 
-    if (characterNumber == left.length) {
-      characterNumber = 0;
+      if (characterNumber == left.length) {
+        characterNumber = 0;
+      }
+      xPos -= 3
     }
-    xPos -= 3
   }
   void updateCharacterRight() {
+
     characterNumber++;
     if (xPos > WINDOW_WIDTH + 50) {
       xPos = -50;
@@ -130,6 +141,25 @@ class Character {
     }
     xPos += 3
   }
+
+  void updateCharacterUp() {
+
+  }
+
+  function isCollidingWith(car) {
+    console.log(distance);
+    var dangerX = car.getXPosition();
+    var dangerY = car.getYPosition();
+    distance = sqrt(sq(dangerX - xPos) + sq(dangerY - yPos));
+    if (distance <= 100) {
+    return true;
+    console.log("true");
+    }
+    else {
+      return false;
+    }
+  }
+
 }
 class Skyline {
   ArrayList < Building > buildingList;
@@ -167,6 +197,10 @@ class Skyline {
     //TODO:loop through buildingList and draw each Building
     for (var i = 0; i < buildingList.size(); i++) {
       var building = buildingList.get(i);
+      if (building.xPosition < -100) {
+        buildingList.remove(i);
+        i--;
+      }
       building.drawBuilding();
     }
   }
@@ -337,27 +371,38 @@ class Cloud {
 
 }
 class Danger {
-  var xPosition, yPosition,speed,dangerNumber;
+  var xPosition, yPosition, speed, dangerNumber;
   /* @param xPos */
-  Danger(){
+  Danger() {
     xPosition = 900;
-    yPosition = WINDOW_HEIGHT - 200 || WINDOW_HEIGHT - 250;
+    yPosition = WINDOW_HEIGHT - 156;
     speed = 2
     dangerNumber = 0;
   }
 
-  void drawAndUpdateDanger(){
+  void drawAndUpdateDanger() {
     drawDanger();
     updateDanger();
   }
-  void drawDanger(){
-    image(danger[dangerNumber], xPosition, yPosition, 250, 215);
+  void drawDanger() {
+    image(danger[dangerNumber], xPosition, yPosition, 180, 154.8);
   }
-  void updateDanger(){
+  void updateDanger() {
     dangerNumber++;
-    xPosition -= speed;
+    if (xPosition < -190) {
+      xPosition = WINDOW_WIDTH + 190;
+    }
+
     if (dangerNumber == danger.length) {
       dangerNumber = 0;
     }
+    xPosition -= speed;
+
+  }
+  int getXPosition (){
+    return xPosition;
+  }
+  int getYPosition (){
+    return yPosition;
   }
 }
