@@ -17,7 +17,7 @@ Cloud cloud3 = new Cloud(1200, 130);
 Cloud cloud4 = new Cloud(150, 200);
 Moon moon = new Moon();
 Danger car = new Danger();
-
+Health characterHealth = new Health();
 
 
 /* @pjs preload= "tmp-0.gif, tmp-1.gif, tmp-2.gif, tmp-3.gif, tmp-4.gif, tmp-5.gif, tmp-6.gif, tmp-7.gif, tmp-8.gif, tmp-9.gif, tmp-10.gif, tmp-11.gif, tmp-12.gif, tmp-13.gif, tmp-14.gif, tmp-15.gif";*/
@@ -54,8 +54,7 @@ void draw() {
   cloud2.drawAndUpdateCloud();
   cloud3.drawAndUpdateCloud();
   cloud4.drawAndUpdateCloud();
-
-
+  characterHealth.drawHealthBar();
 
   fill(93, 111, 122);
   noStroke();
@@ -73,7 +72,7 @@ void draw() {
       tallSkyline.moveSkyline();
       middleSkyline.moveSkyline();
       shortSkyline.moveSkyline();
-      fatguy.updateCharacterRight(car);
+      fatguy.updateCharacterRight();
     } else if (keyCode == UP) {
       // fatguy.updateCharacterUp();
     }
@@ -93,21 +92,20 @@ class Character {
   var characterNumber;
   var speed;
   var distance;
-  var healthNumber;
 
   Character() {
     xPos = 200;
     yPos = 475;
     characterNumber = 0;
     upSpeed = 25;
-    healthNumber = 100;
     // distance = 100000000;
   }
+  // void moveCharacter() {
+  //   drawCharacter();
+  //   updateCharacter();
+  // }
 
   void drawCharacter(var direction) {
-    stroke();
-    fill(255,0,0);
-    rect(775,10,healthNumber*2,20);
     if (direction == LEFT) {
       image(left[characterNumber], xPos, yPos, 100, 100);
     } else if (direction == RIGHT) {
@@ -116,10 +114,7 @@ class Character {
   }
 
   void updateCharacterLeft(car) {
-    if(isCollidingWith(car) && healthNumber >= 5){
-      healthNumber -= 20;
-      car.setXPosition();
-    }
+
     characterNumber++;
     if (xPos > WINDOW_WIDTH + 50) {
       xPos = -50;
@@ -135,11 +130,8 @@ class Character {
 
   }
 
-  void updateCharacterRight(car) {
-    if(isCollidingWith(car) && healthNumber >= 5){
-      healthNumber -= 20;
-      car.setXPosition();
-    }
+  void updateCharacterRight() {
+
     characterNumber++;
     if (xPos > WINDOW_WIDTH + 50) {
       xPos = -50;
@@ -415,7 +407,15 @@ class Danger {
   int getYPosition() {
     return yPosition;
   }
-  void setXPosition() {
-    xPosition = 1050;
+}
+class Health {
+  var healthNumber;
+  Health() {
+    healthNumber = 100;
+  }
+  void drawHealthBar(){
+    stroke();
+    fill(255,0,0);
+    rect(775,10,healthNumber*2,20);
   }
 }
