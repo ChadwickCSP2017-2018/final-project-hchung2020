@@ -86,12 +86,12 @@ void draw() {
     // }
 
   }
-  if(keyReleased) {
-  characterY = fatguy.findYPosition();
-    if(keyCode == UP && characterY == 375){
-      fatguy.updateCharacterDown(car);
-    }
-  }
+  // if(keyReleased) {
+  // characterY = fatguy.findYPosition();
+  //   if(keyCode == UP && characterY == 375){
+  //     fatguy.updateCharacterDown(car);
+  //   }
+  // }
   tallSkyline.drawSkyline();
   middleSkyline.drawSkyline();
   shortSkyline.drawSkyline();
@@ -107,6 +107,10 @@ class Character {
   var speed;
   var distance;
   var healthNumber;
+  var yVel;
+  var gravity;
+  var isJumping;
+  var characterGround;
 
   Character() {
     xPos = 200;
@@ -115,6 +119,11 @@ class Character {
     upSpeed = 25;
     healthNumber = 100;
     distance = 100000000;
+    yVel = 0;
+    gravity = 1.2;
+    isJumping = false;
+    characterGround = 460;
+
   }
 
   void drawCharacter(var direction) {
@@ -134,6 +143,17 @@ class Character {
       healthNumber -= 20;
       car.setXPosition();
     }
+
+
+    if(isJumping){
+      yVel += gravity;
+      yPos += yVel;
+      if(yPos > characterGround) {
+        yPos = characterGround;
+        yVel = 0;
+        isJumping = false;
+      }
+    }
   }
 
   void updateCharacterLeft(car) {
@@ -152,6 +172,15 @@ class Character {
     if (characterNumber == left.length) {
       characterNumber = 0;
     }
+    // if(isJumping){
+    //   yVel += gravity;
+    //   yPos += yVel;
+    //   if(yPos > characterGround) {
+    //     yPos = characterGround;
+    //     yVel = 0;
+    //     isJumping = false;
+    //   }
+    // }
     xPos -= 3
 
   }
@@ -171,17 +200,22 @@ class Character {
     if (characterNumber == right.length) {
       characterNumber = 0;
     }
+    // if(isJumping){
+    //   yVel += gravity;
+    //   yPos += yVel;
+    //   if(yPos > characterGround) {
+    //     yPos = characterGround;
+    //     yVel = 0;
+    //     isJumping = false;
+    //   }
+    // }
     xPos += 3
   }
 
   void updateCharacterUp(car) {
-    if (isCollidingWith(car) && healthNumber >= 20) {
-      healthNumber -= 20;
-      car.setXPosition();
-    }
-
-    if (yPos >= 425) {
-      yPos -= 100;
+    if(isJumping == false){
+      yVel = -20;
+      isJumping = true;
     }
   }
 
@@ -200,9 +234,9 @@ class Character {
     // if (characterNumber == right.length) {
     //   characterNumber = 0;
     // }
-    if (yPos <= 425) {
-      yPos += 100;
-    }
+    // if (yPos <= 425) {
+    //   yPos += 100;
+    // }
   }
   int findYPosition() {
     return yPos;
