@@ -17,8 +17,7 @@ Cloud cloud2 = new Cloud(600, 150);
 Cloud cloud3 = new Cloud(1200, 130);
 Cloud cloud4 = new Cloud(150, 200);
 Moon moon = new Moon();
-Danger car = new Danger(900);
-Danger car2 = new Danger(450);
+Danger car = new Danger();
 
 
 
@@ -72,15 +71,15 @@ void draw() {
       console.log("Pressed a key");
       if (keyCode == LEFT) {
         direction = LEFT;
-        fatguy.updateCharacterLeft(car,car2);
+        fatguy.updateCharacterLeft(car);
       } else if (keyCode == RIGHT) {
         direction = RIGHT;
         tallSkyline.moveSkyline();
         middleSkyline.moveSkyline();
         shortSkyline.moveSkyline();
-        fatguy.updateCharacterRight(car,car2);
+        fatguy.updateCharacterRight(car);
       } else if (keyCode == UP) {
-        fatguy.updateCharacterUp(car,car2);
+        fatguy.updateCharacterUp(car);
       }
 
     }
@@ -90,7 +89,6 @@ void draw() {
     shortSkyline.drawSkyline();
     fatguy.drawCharacter(direction);
     car.drawAndUpdateDanger();
-    car2.drawAndUpdateDanger();
 
 
   }
@@ -136,10 +134,9 @@ class Character {
     } else if (direction == RIGHT) {
       image(right[characterNumber], xPos, yPos, 100, 100);
     }
-    if (isCollidingWith(car,car2) && healthNumber >= 20) {
+    if (isCollidingWith(car) && healthNumber >= 20) {
       healthNumber -= 20;
       car.setXPosition();
-      car2.setXPosition();
     }
 
 
@@ -154,11 +151,10 @@ class Character {
     }
   }
 
-  void updateCharacterLeft(car,car2) {
-    if (isCollidingWith(car,car2) && healthNumber >= 20) {
+  void updateCharacterLeft(car) {
+    if (isCollidingWith(car) && healthNumber >= 20) {
       healthNumber -= 20;
       car.setXPosition();
-      car2.setXPosition();
     }
     characterNumber++;
     if (xPos > WINDOW_WIDTH + 50) {
@@ -184,11 +180,10 @@ class Character {
 
   }
 
-  void updateCharacterRight(car,car2) {
-    if (isCollidingWith(car,car2) && healthNumber >= 20) {
+  void updateCharacterRight(car) {
+    if (isCollidingWith(car) && healthNumber >= 20) {
       healthNumber -= 20;
       car.setXPosition();
-      car2.setXPosition();
     }
     characterNumber++;
     if (xPos > WINDOW_WIDTH + 50) {
@@ -212,13 +207,32 @@ class Character {
     xPos += speed
   }
 
-  void updateCharacterUp(car,car2) {
+  void updateCharacterUp(car) {
     if (isJumping == false) {
       yVel = -18;
       isJumping = true;
     }
   }
 
+  void updateCharacterDown(car) {
+    if (isCollidingWith(car) && healthNumber >= 20) {
+      healthNumber -= 20;
+      car.setXPosition();
+    }
+    // characterNumber++;
+    // if (xPos > WINDOW_WIDTH + 50) {
+    //   xPos = -50;
+    // }
+    // if (xPos < -50) {
+    //   xPosition = WINDOW_WIDTH + 50;
+    // }
+    // if (characterNumber == right.length) {
+    //   characterNumber = 0;
+    // }
+    // if (yPos <= 425) {
+    //   yPos += 100;
+    // }
+  }
   int findYPosition() {
     return yPos;
   }
@@ -230,11 +244,8 @@ class Character {
     //console.log(distance);
     var dangerX = car.getXPosition();
     var dangerY = car.getYPosition();
-    var danger2X = car2.getXPosition();
-    var danger2Y = car2.getYPosition();
     distance = sqrt(sq(dangerX - xPos) + sq(dangerY - yPos));
-    distance2 = sqrt(sq(danger2X - xPos) + sq(danger2Y - yPos));
-    if (distance <= 60 || distance2 <= 60) {
+    if (distance <= 60) {
       return true;
       console.log("true");
     } else {
@@ -459,8 +470,8 @@ class Cloud {
 class Danger {
   var xPosition, yPosition, speed, dangerNumber;
   /* @param xPos */
-  Danger(x) {
-    xPosition = x;
+  Danger() {
+    xPosition = 900;
     yPosition = WINDOW_HEIGHT - 120;
     speed = random(3,5);
     dangerNumber = 0;
