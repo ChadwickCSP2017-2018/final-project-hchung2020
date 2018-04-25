@@ -1,6 +1,6 @@
 var WINDOW_WIDTH = 1000;
 var WINDOW_HEIGHT = 600;
-var BACKGROUND_COLOR = color(95, 97, 255);
+var BACKGROUND_COLOR = color(255);
 var LEFT = '37';
 var RIGHT = '39';
 var DOWN = '40';
@@ -11,18 +11,20 @@ var gameScreen = 0;
 Character fatguy = new Character();
 Skyline tallSkyline = new Skyline(1, 250, 350, color(220));
 Skyline middleSkyline = new Skyline(3, 80, 250, color(180));
-Skyline shortSkyline = new Skyline(5, 10, 100, color(100));
-Moon moon = new Moon();
+Skyline shortSkyline = new Skyline(5, 50, 100, color(100));
 Cloud cloud1 = new Cloud(400, 100);
 Cloud cloud2 = new Cloud(600, 150);
 Cloud cloud3 = new Cloud(1200, 130);
 Cloud cloud4 = new Cloud(150, 200);
+Moon moon = new Moon();
+Danger car = new Danger();
+
 
 
 /* @pjs preload= "tmp-0.gif, tmp-1.gif, tmp-2.gif, tmp-3.gif, tmp-4.gif, tmp-5.gif, tmp-6.gif, tmp-7.gif, tmp-8.gif, tmp-9.gif, tmp-10.gif, tmp-11.gif, tmp-12.gif, tmp-13.gif, tmp-14.gif, tmp-15.gif";*/
 /* @pjs preload= "rtmp-0.gif, rtmp-1.gif, rtmp-2.gif, rtmp-3.gif, rtmp-4.gif, rtmp-5.gif, rtmp-6.gif, rtmp-7.gif, rtmp-8.gif, rtmp-9.gif, rtmp-10.gif, rtmp-11.gif, rtmp-12.gif, rtmp-13.gif, rtmp-14.gif, rtmp-15.gif";*/
-/* @pjs preload = "BackgroundColor.png";*/
-/* @pjs preload="car0.gif,car1.gif,car2.gif,car3.gif,car4.gif,car5.gif,car6.gif,car7.gif,car8.gif,car9.gif,car10.gif,car11.gif,car12.gif,car13.gif,car14.gif,car15.gif,car16.gif,car17.gif,car18.gif,car19.gif"*/
+/* @pjs preload="car0.gif,car1.gif,car2.gif,car3.gif,car4.gif,car5.gif,car6.gif,car7.gif,car8.gif,car9.gif,car10.gif,car11.gif,car12.gif,car13.gif,car14.gif,car15.gif,car16.gif,car17.gif,car18.gif,car19.gif";*/
+/* @pjs preload= "BackgroundColor.png";*/
 PImage characterImage;
 PImage backgroundImage;
 
@@ -80,33 +82,6 @@ void draw() {
         fatguy.updateCharacterUp(car);
       }
 
-  background(225);
-  moon.drawAndUpdateMoon();
-  cloud1.drawAndUpdateCloud();
-  cloud2.drawAndUpdateCloud();
-  cloud3.drawAndUpdateCloud();
-  cloud4.drawAndUpdateCloud();
-  fill(93, 111, 122);
-  // road
-  noStroke();
-  rect(0, WINDOW_HEIGHT - 50, WINDOW_WIDTH, 50);
-  stroke(255);
-
-
-
-  if (keyPressed) {
-    console.log("Pressed a key");
-    if (keyCode == LEFT) {
-      direction = LEFT;
-      fatguy.updateCharacterLeft(car);
-    } else if (keyCode == RIGHT) {
-      direction = RIGHT;
-      tallSkyline.moveSkyline();
-      middleSkyline.moveSkyline();
-      shortSkyline.moveSkyline();
-      fatguy.updateCharacterRight();
-    } else if (keyCode == UP) {
-      // fatguy.updateCharacterUp();
     }
 
     tallSkyline.drawSkyline();
@@ -124,93 +99,6 @@ void draw() {
     textSize(12);
     text("GAME OVER",WINDOW_WIDTH/2,WINDOW_HEIGHT/2);
   }
-}
-
-// class Health {
-//   var health,
-//   rect(WINDOW_WIDTH - 200, 50, 150, 40);
-//   stroke(100);
-// }
-
-
-class Moon {
-  var speed, xPosition, radius;
-
-  /**
-   * Constructs a Building object
-   * @param xPos - the x position of the top left corner of the building
-   */
-
-  Moon() {
-    speed = 0.05;
-    xPosition = 100;
-    radius = 60;
-  }
-
-  void drawAndUpdateMoon() {
-    // var testSpeed = 5;
-    drawMoon();
-    update();
-  }
-
-  /**
-   * Draws a building always attached to the bottom of the screen
-   */
-  void drawMoon() {
-    noStroke();
-    fill(color(255, 255, 204));
-    ellipse(xPosition, 125, radius, radius);
-    stroke();
-  }
-
-  /**
-   * Updates the x position of the building
-   * @param speed - the speed at which the building updates
-   */
-  void update() {
-    xPosition += speed;
-    if (xPosition > WINDOW_WIDTH + 50) {
-      xPosition = -60;
-    }
-  }
-
-
-
-}
-
-class Cloud {
-  var xPosition, yPosition, speed;
-  /* @param xPos */
-
-  Cloud(var x,
-    var y) {
-    xPosition = x;
-    yPosition = y;
-    speed = 0.1;
-  }
-
-  void drawAndUpdateCloud() {
-    drawCloud();
-    updateCloud();
-  }
-
-  void drawCloud() {
-    fill(color(255));
-    ellipse(xPosition, yPosition, 70, 50);
-    ellipse(xPosition + 40, yPosition, 70, 50);
-    ellipse(xPosition + 20, yPosition - 25, 70, 50);
-  }
-  void updateCloud() {
-    xPosition += speed;
-    if (xPosition > WINDOW_WIDTH + 50) {
-      xPosition = -60;
-    }
-  }
-
-
-
-
-
 }
 
 class Character {
@@ -298,11 +186,11 @@ class Character {
       car.setXPosition();
     }
     characterNumber++;
-    if (xPos > WINDOW_WIDTH + 5) {
+    if (xPos > WINDOW_WIDTH + 50) {
       xPos = -50;
     }
-    if (xPos < -55) {
-      xPosition = WINDOW_WIDTH + 5;
+    if (xPos < -50) {
+      xPosition = WINDOW_WIDTH + 50;
     }
     if (characterNumber == right.length) {
       characterNumber = 0;
@@ -616,5 +504,42 @@ class Danger {
   }
   void setXPosition() {
     xPosition = 1030;
+  }
+}
+
+class PowerUp {
+  var xPosition, yPosition, speed;
+  /* @param xPos */
+  PowerUp() {
+    xPosition = 900;
+    yPosition = WINDOW_HEIGHT - 120;
+    speed = random(3,5);
+    dangerNumber = 0;
+  }
+
+  void drawAndUpdatePowerup() {
+    drawDanger();
+    updateDanger();
+  }
+  void drawPowerup() {
+    image(danger[dangerNumber], xPosition, yPosition, 130, 104.000000004);
+  }
+  void updatePowerup() {
+
+    if (yPosition < -190) {
+      xPosition = WINDOW_WIDTH + 190;
+    }
+
+    yPosition += speed;
+
+  }
+  int getXPosition() {
+    return xPosition;
+  }
+  int getYPosition() {
+    return yPosition;
+  }
+  void setYPosition() {
+    yPosition = -50;
   }
 }
