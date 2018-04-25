@@ -6,6 +6,7 @@ var RIGHT = '39';
 var DOWN = '40';
 var UP = '38';
 var direction = RIGHT;
+var gameScreen = 0;
 
 Character fatguy = new Character();
 Skyline tallSkyline = new Skyline(1, 250, 350, color(220));
@@ -17,12 +18,13 @@ Cloud cloud2 = new Cloud(600, 150);
 Cloud cloud3 = new Cloud(1200, 130);
 Cloud cloud4 = new Cloud(150, 200);
 
+
 /* @pjs preload= "tmp-0.gif, tmp-1.gif, tmp-2.gif, tmp-3.gif, tmp-4.gif, tmp-5.gif, tmp-6.gif, tmp-7.gif, tmp-8.gif, tmp-9.gif, tmp-10.gif, tmp-11.gif, tmp-12.gif, tmp-13.gif, tmp-14.gif, tmp-15.gif";*/
 /* @pjs preload= "rtmp-0.gif, rtmp-1.gif, rtmp-2.gif, rtmp-3.gif, rtmp-4.gif, rtmp-5.gif, rtmp-6.gif, rtmp-7.gif, rtmp-8.gif, rtmp-9.gif, rtmp-10.gif, rtmp-11.gif, rtmp-12.gif, rtmp-13.gif, rtmp-14.gif, rtmp-15.gif";*/
 /* @pjs preload = "BackgroundColor.png";*/
 /* @pjs preload="car0.gif,car1.gif,car2.gif,car3.gif,car4.gif,car5.gif,car6.gif,car7.gif,car8.gif,car9.gif,car10.gif,car11.gif,car12.gif,car13.gif,car14.gif,car15.gif,car16.gif,car17.gif,car18.gif,car19.gif"*/
-PImage backgroundImage;
 PImage characterImage;
+PImage backgroundImage;
 
 PImage[] left = new PImage[16];
 PImage[] right = new PImage[16];
@@ -45,6 +47,38 @@ void setup() {
 }
 
 void draw() {
+  var characterHealth = fatguy.getHealth();
+
+  if (characterHealth > 0) {
+    image(backgroundImage, 0, 0);
+    moon.drawAndUpdateMoon();
+    cloud1.drawAndUpdateCloud();
+    cloud2.drawAndUpdateCloud();
+    cloud3.drawAndUpdateCloud();
+    cloud4.drawAndUpdateCloud();
+
+
+
+    fill(93, 111, 122);
+    noStroke();
+    rect(0, WINDOW_HEIGHT - 50, WINDOW_WIDTH, 50);
+    stroke(255);
+
+
+    if (keyPressed) {
+      console.log("Pressed a key");
+      if (keyCode == LEFT) {
+        direction = LEFT;
+        fatguy.updateCharacterLeft(car);
+      } else if (keyCode == RIGHT) {
+        direction = RIGHT;
+        tallSkyline.moveSkyline();
+        middleSkyline.moveSkyline();
+        shortSkyline.moveSkyline();
+        fatguy.updateCharacterRight(car);
+      } else if (keyCode == UP) {
+        fatguy.updateCharacterUp(car);
+      }
 
   background(225);
   moon.drawAndUpdateMoon();
@@ -75,14 +109,21 @@ void draw() {
       // fatguy.updateCharacterUp();
     }
 
+    tallSkyline.drawSkyline();
+    middleSkyline.drawSkyline();
+    shortSkyline.drawSkyline();
+    fatguy.drawCharacter(direction);
+    car.drawAndUpdateDanger();
+
+
   }
-  tallSkyline.drawSkyline();
-  middleSkyline.drawSkyline();
-  shortSkyline.drawSkyline();
-  fatguy.drawCharacter(direction);
-  car.drawAndUpdateDanger();
-
-
+  else {
+    background(0);
+    textAlign(CENTER);
+    fill(255);
+    textSize(12);
+    text("GAME OVER",WINDOW_WIDTH/2,WINDOW_HEIGHT/2);
+  }
 }
 
 // class Health {
@@ -177,45 +218,85 @@ class Character {
   var characterNumber;
   var speed;
   var distance;
+  var healthNumber;
+  var yVel;
+  var gravity;
+  var isJumping;
+  var characterGround;
 
   Character() {
     xPos = 200;
     yPos = 475;
     characterNumber = 0;
-    upSpeed = 25;
-    // distance = 100000000;
+    healthNumber = 100;
+    distance = 100000000;
+    yVel = 0;
+    gravity = 1.2;
+    isJumping = false;
+    characterGround = 460;
+    speed = 4
   }
-  // void moveCharacter() {
-  //   drawCharacter();
-  //   updateCharacter();
-  // }
 
   void drawCharacter(var direction) {
+    stroke();
+    fill(255, 0, 0);
+    rect(775, 10, healthNumber * 2, 20);
     if (direction == LEFT) {
       image(left[characterNumber], xPos, yPos, 100, 100);
     } else if (direction == RIGHT) {
       image(right[characterNumber], xPos, yPos, 100, 100);
     }
+    if (isCollidingWith(car) && healthNumber >= 20) {
+      healthNumber -= 20;
+      car.setXPosition();
+    }
+
+
+    if (isJumping) {
+      yVel += gravity;
+      yPos += yVel;
+      if (yPos > characterGround) {
+        yPos = characterGround;
+        yVel = 0;
+        isJumping = false;
+      }
+    }
   }
 
   void updateCharacterLeft(car) {
-    if (isCollidingWith(car) == false) {
-      characterNumber++;
-      if (xPos > WINDOW_WIDTH + 50) {
-        xPos = -50;
-      }
-      if (xPos < -50) {
-        xPos = WINDOW_WIDTH + 50;
-      }
-
-      if (characterNumber == left.length) {
-        characterNumber = 0;
-      }
-      xPos -= 3
+    if (isCollidingWith(car) && healthNumber >= 20) {
+      healthNumber -= 20;
+      car.setXPosition();
     }
-  }
-  void updateCharacterRight() {
+    characterNumber++;
+    if (xPos > WINDOW_WIDTH + 50) {
+      xPos = -50;
+    }
+    if (xPos < -50) {
+      xPos = WINDOW_WIDTH + 50;
+    }
 
+    if (characterNumber == left.length) {
+      characterNumber = 0;
+    }
+    // if(isJumping){
+    //   yVel += gravity;
+    //   yPos += yVel;
+    //   if(yPos > characterGround) {
+    //     yPos = characterGround;
+    //     yVel = 0;
+    //     isJumping = false;
+    //   }
+    // }
+    xPos -= speed
+
+  }
+
+  void updateCharacterRight(car) {
+    if (isCollidingWith(car) && healthNumber >= 20) {
+      healthNumber -= 20;
+      car.setXPosition();
+    }
     characterNumber++;
     if (xPos > WINDOW_WIDTH + 5) {
       xPos = -50;
@@ -226,23 +307,60 @@ class Character {
     if (characterNumber == right.length) {
       characterNumber = 0;
     }
-    xPos += 3
+    // if(isJumping){
+    //   yVel += gravity;
+    //   yPos += yVel;
+    //   if(yPos > characterGround) {
+    //     yPos = characterGround;
+    //     yVel = 0;
+    //     isJumping = false;
+    //   }
+    // }
+    xPos += speed
   }
 
-  void updateCharacterUp() {
+  void updateCharacterUp(car) {
+    if (isJumping == false) {
+      yVel = -18;
+      isJumping = true;
+    }
+  }
 
+  void updateCharacterDown(car) {
+    if (isCollidingWith(car) && healthNumber >= 20) {
+      healthNumber -= 20;
+      car.setXPosition();
+    }
+    // characterNumber++;
+    // if (xPos > WINDOW_WIDTH + 50) {
+    //   xPos = -50;
+    // }
+    // if (xPos < -50) {
+    //   xPosition = WINDOW_WIDTH + 50;
+    // }
+    // if (characterNumber == right.length) {
+    //   characterNumber = 0;
+    // }
+    // if (yPos <= 425) {
+    //   yPos += 100;
+    // }
+  }
+  int findYPosition() {
+    return yPos;
+  }
+  int getHealth() {
+    return healthNumber;
   }
 
   function isCollidingWith(car) {
-    console.log(distance);
+    //console.log(distance);
     var dangerX = car.getXPosition();
     var dangerY = car.getYPosition();
     distance = sqrt(sq(dangerX - xPos) + sq(dangerY - yPos));
-    if (distance <= 100) {
-    return true;
-    console.log("true");
-    }
-    else {
+    if (distance <= 60) {
+      return true;
+      console.log("true");
+    } else {
       return false;
     }
   }
@@ -325,6 +443,10 @@ class Skyline {
     while (xPosition < WINDOW_WIDTH - 10) {
       addBuilding();
     }
+    // while (buildingList.get(0).xPosition < -100) {
+    //   buildingList.remove(0);
+    // }
+    console.log(buildingList.size());
   }
 }
 
@@ -462,8 +584,8 @@ class Danger {
   /* @param xPos */
   Danger() {
     xPosition = 900;
-    yPosition = WINDOW_HEIGHT - 156;
-    speed = 2
+    yPosition = WINDOW_HEIGHT - 120;
+    speed = random(3,5);
     dangerNumber = 0;
   }
 
@@ -472,7 +594,7 @@ class Danger {
     updateDanger();
   }
   void drawDanger() {
-    image(danger[dangerNumber], xPosition, yPosition, 180, 154.8);
+    image(danger[dangerNumber], xPosition, yPosition, 130, 104.000000004);
   }
   void updateDanger() {
     dangerNumber++;
@@ -486,19 +608,13 @@ class Danger {
     xPosition -= speed;
 
   }
-  int getXPosition (){
+  int getXPosition() {
     return xPosition;
   }
-  int getYPosition (){
+  int getYPosition() {
     return yPosition;
   }
-
-  function isCollidingWith(Danger, car) {
-    // distance = sqrt(sq(car.xPosition -= xPos)+= sq(car.yPosition -= yPos));
-    distance = 10;
-    if (distance <= 100) {
-      return true;
-      console.log("true");
-    }
-  }
+  void setXPosition() {
+    xPosition = 1030;
+  }
 }
