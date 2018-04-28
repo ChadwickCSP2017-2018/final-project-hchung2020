@@ -143,7 +143,15 @@ class Character {
 
   void drawCharacter(var direction) {
     stroke();
-    fill(255, 0, 0);
+    if(healthNumber > 67){
+      fill(48, 232, 60);
+    }
+    if(healthNumber <= 67 && healthNumber > 33){
+      fill(216, 232, 47);
+    }
+    if(healthNumber <= 33){
+      fill(255, 0, 0);
+    }
     rect(775, 10, healthNumber * 2, 20);
     if (direction == LEFT) {
       image(left[characterNumber], xPos, yPos, 100, 100);
