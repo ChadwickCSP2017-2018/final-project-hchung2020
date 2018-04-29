@@ -18,6 +18,7 @@ Cloud cloud3 = new Cloud(1200, 130);
 Cloud cloud4 = new Cloud(150, 200);
 Moon moon = new Moon();
 Danger car = new Danger();
+Danger car2 = new Danger();
 
 
 
@@ -84,6 +85,7 @@ void draw() {
 
     }
 
+
     tallSkyline.drawSkyline();
     middleSkyline.drawSkyline();
     shortSkyline.drawSkyline();
@@ -91,13 +93,27 @@ void draw() {
     car.drawAndUpdateDanger();
 
 
+
   }
   else {
     background(0);
     textAlign(CENTER);
     fill(255);
-    textSize(12);
+    textSize(14);
     text("GAME OVER",WINDOW_WIDTH/2,WINDOW_HEIGHT/2);
+    textSize(12);
+    text("Click to start over",WINDOW_WIDTH/2,WINDOW_HEIGHT/2 + 20);
+
+  }
+}
+void mouseClicked(){
+  var health = fatguy.getHealth();
+  console.log("mouse");
+  if(health <= 0){
+    console.log("mouse-pressed");
+    fatguy.setHealth();
+    fatguy.setX();
+    car.setXPosition();
   }
 }
 
@@ -127,7 +143,15 @@ class Character {
 
   void drawCharacter(var direction) {
     stroke();
-    fill(255, 0, 0);
+    if(healthNumber > 67){
+      fill(48, 232, 60);
+    }
+    if(healthNumber <= 67 && healthNumber > 33){
+      fill(216, 232, 47);
+    }
+    if(healthNumber <= 33){
+      fill(255, 0, 0);
+    }
     rect(775, 10, healthNumber * 2, 20);
     if (direction == LEFT) {
       image(left[characterNumber], xPos, yPos, 100, 100);
@@ -238,6 +262,12 @@ class Character {
   }
   int getHealth() {
     return healthNumber;
+  }
+  void setHealth() {
+    healthNumber = 100;
+  }
+  void setX() {
+    xPos = 200;
   }
 
   function isCollidingWith(car) {
