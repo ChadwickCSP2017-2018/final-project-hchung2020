@@ -79,6 +79,7 @@ void draw() {
         middleSkyline.moveSkyline();
         shortSkyline.moveSkyline();
         fatguy.updateCharacterRight(car);
+        car.drawAndUpdateDanger();
       } else if (keyCode == UP) {
         fatguy.updateCharacterUp(car);
       }
@@ -377,7 +378,6 @@ class Moon {
   }
 
   void drawAndUpdateMoon() {
-    // var testSpeed = 5;
     drawMoon();
     update();
   }
@@ -465,41 +465,5 @@ class Danger {
   }
   void setXPosition() {
     xPosition = 1030;
-  }
-}
-
-class PowerUp {
-  var xPosition, yPosition, speed;
-  PowerUp() {
-    xPosition = 900;
-    yPosition = WINDOW_HEIGHT - 120;
-    speed = random(3, 5);
-    dangerNumber = 0;
-  }
-
-  void drawAndUpdatePowerup() {
-    drawDanger();
-    updateDanger();
-  }
-  void drawPowerup() {
-    image(danger[dangerNumber], xPosition, yPosition, 130, 104.000000004);
-  }
-  void updatePowerup() {
-
-    if (yPosition < -190) {
-      xPosition = WINDOW_WIDTH + 190;
-    }
-
-    yPosition += speed;
-
-  }
-  int getXPosition() {
-    return xPosition;
-  }
-  int getYPosition() {
-    return yPosition;
-  }
-  void setYPosition() {
-    yPosition = -50;
   }
 }
