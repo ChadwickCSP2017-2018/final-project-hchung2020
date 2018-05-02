@@ -79,15 +79,9 @@ void draw() {
         middleSkyline.moveSkyline();
         shortSkyline.moveSkyline();
         fatguy.updateCharacterRight(car);
-<<<<<<< HEAD
-
-||||||| merged common ancestors
-=======
-        car.drawAndUpdateDanger();
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
       } else if (keyCode == UP) {
         fatguy.updateCharacterUp(car);
-    
+
       }
 
     }
@@ -112,14 +106,7 @@ void draw() {
 
   }
 }
-<<<<<<< HEAD
-
 void mouseClicked() {
-||||||| merged common ancestors
-void mouseClicked(){
-=======
-void mouseClicked() {
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
   var health = fatguy.getHealth();
   console.log("mouse");
   if (health <= 0) {
@@ -205,20 +192,7 @@ class Character {
     if (characterNumber == left.length) {
       characterNumber = 0;
     }
-<<<<<<< HEAD
 
-||||||| merged common ancestors
-    // if(isJumping){
-    //   yVel += gravity;
-    //   yPos += yVel;
-    //   if(yPos > characterGround) {
-    //     yPos = characterGround;
-    //     yVel = 0;
-    //     isJumping = false;
-    //   }
-    // }
-=======
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
     xPos -= speed
 
   }
@@ -238,20 +212,7 @@ class Character {
     if (characterNumber == right.length) {
       characterNumber = 0;
     }
-<<<<<<< HEAD
 
-||||||| merged common ancestors
-    // if(isJumping){
-    //   yVel += gravity;
-    //   yPos += yVel;
-    //   if(yPos > characterGround) {
-    //     yPos = characterGround;
-    //     yVel = 0;
-    //     isJumping = false;
-    //   }
-    // }
-=======
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
     xPos += speed
   }
 
@@ -267,24 +228,7 @@ class Character {
       healthNumber -= 20;
       car.setXPosition();
     }
-<<<<<<< HEAD
 
-||||||| merged common ancestors
-    // characterNumber++;
-    // if (xPos > WINDOW_WIDTH + 50) {
-    //   xPos = -50;
-    // }
-    // if (xPos < -50) {
-    //   xPosition = WINDOW_WIDTH + 50;
-    // }
-    // if (characterNumber == right.length) {
-    //   characterNumber = 0;
-    // }
-    // if (yPos <= 425) {
-    //   yPos += 100;
-    // }
-=======
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
   }
   int findYPosition() {
     return yPos;
@@ -317,14 +261,7 @@ class Skyline {
   var xPosition, speed, skylineUpbound, skylineLowbound;
   var skylineColor;
 
-<<<<<<< HEAD
 
-||||||| merged common ancestors
-  /**
-   * Constructs a SkyLine with enough buildings to fill the screen
-   */
-=======
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
   Skyline(float s,
     var sl,
       var su,
@@ -339,33 +276,16 @@ class Skyline {
   }
 
   void moveSkyline() {
-<<<<<<< HEAD
 
-||||||| merged common ancestors
-    //TODO:update and draw the skyline, add buildings as buildings leave the screen
-=======
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
     drawSkyline();
     update();
     addBuilding();
 
   }
 
-<<<<<<< HEAD
 
-||||||| merged common ancestors
-  /**
-   * Draws the skyline, placing it on the screen
-   */
-=======
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
   void drawSkyline() {
-<<<<<<< HEAD
 
-||||||| merged common ancestors
-    //TODO:loop through buildingList and draw each Building
-=======
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
     for (var i = 0; i < buildingList.size(); i++) {
       var building = buildingList.get(i);
       if (building.xPosition < -100) {
@@ -376,21 +296,9 @@ class Skyline {
     }
   }
 
-<<<<<<< HEAD
 
-||||||| merged common ancestors
-  /**
-   * Updates the position of each Building in the SkyLine
-   */
-=======
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
   void update() {
-<<<<<<< HEAD
 
-||||||| merged common ancestors
-    //TODO:loop through buildingList and update each Building
-=======
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
     for (var s = 0; s < buildingList.size(); s++) {
       var building = buildingList.get(s);
       building.update();
@@ -398,16 +306,7 @@ class Skyline {
     }
   }
 
-<<<<<<< HEAD
 
-||||||| merged common ancestors
-  /**
-   * Adds a building of random building width and then updates
-   * the x position to be the right corner of the building in order
-   * to have the next building not overlap
-   */
-=======
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
   void addBuilding() {
     var randomBuildingWidth = random(50, 100);
     Building currentBuilding = new Building(xPosition, randomBuildingWidth, skylineUpbound,
@@ -418,38 +317,16 @@ class Skyline {
 
 
   void fillSkyline() {
-<<<<<<< HEAD
 
-||||||| merged common ancestors
-    //TODO: add enough buildings to fill the screen
-    // hint - use xPosition and WINDOW_WIDTH to figure out when you have
-    //        enough buildings
-=======
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
     while (xPosition < WINDOW_WIDTH - 10) {
       addBuilding();
     }
-<<<<<<< HEAD
 
-||||||| merged common ancestors
-    // while (buildingList.get(0).xPosition < -100) {
-    //   buildingList.remove(0);
-    // }
-=======
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
     console.log(buildingList.size());
   }
 }
 
-<<<<<<< HEAD
 
-||||||| merged common ancestors
-/**
- * Represents a building, providing a way to place a building and move
- * it across the screen.
- */
-=======
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
 class Building {
 
   var xPosition, yPosition, buildingHeight, buildingWidth;
@@ -479,24 +356,12 @@ class Building {
   }
 
   void drawAndUpdate() {
-<<<<<<< HEAD
 
-||||||| merged common ancestors
-    // var testSpeed = 5;
-=======
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
     drawBuilding();
     update();
   }
 
-<<<<<<< HEAD
 
-||||||| merged common ancestors
-  /**
-   * Draws a building always attached to the bottom of the screen
-   */
-=======
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
   void drawBuilding() {
     fill(buildingColor);
     rect(xPosition, WINDOW_HEIGHT - buildingHeight - 50, buildingWidth, buildingHeight);
@@ -529,24 +394,12 @@ class Moon {
   }
 
   void drawAndUpdateMoon() {
-<<<<<<< HEAD
 
-||||||| merged common ancestors
-    // var testSpeed = 5;
-=======
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
     drawMoon();
     update();
   }
 
-<<<<<<< HEAD
 
-||||||| merged common ancestors
-  /**
-   * Draws a building always attached to the bottom of the screen
-   */
-=======
->>>>>>> 8b2147659f0238697f8e66692a5933629f107620
   void drawMoon() {
     noStroke();
     fill(color(255, 255, 204));
