@@ -26,7 +26,6 @@ Danger car2 = new Danger();
 /* @pjs preload= "rtmp-0.gif, rtmp-1.gif, rtmp-2.gif, rtmp-3.gif, rtmp-4.gif, rtmp-5.gif, rtmp-6.gif, rtmp-7.gif, rtmp-8.gif, rtmp-9.gif, rtmp-10.gif, rtmp-11.gif, rtmp-12.gif, rtmp-13.gif, rtmp-14.gif, rtmp-15.gif";*/
 /* @pjs preload="car0.gif,car1.gif,car2.gif,car3.gif,car4.gif,car5.gif,car6.gif,car7.gif,car8.gif,car9.gif,car10.gif,car11.gif,car12.gif,car13.gif,car14.gif,car15.gif,car16.gif,car17.gif,car18.gif,car19.gif";*/
 /* @pjs preload= "BackgroundColor.png";*/
-PImage characterImage;
 PImage backgroundImage;
 
 PImage[] left = new PImage[16];
@@ -34,8 +33,8 @@ PImage[] right = new PImage[16];
 PImage[] danger = new PImage[20];
 
 void setup() {
-  size(WINDOW_WIDTH, WINDOW_HEIGHT); //sets the size of the window
-  frameRate(30); //how many times the draw function is called per second
+  size(WINDOW_WIDTH, WINDOW_HEIGHT);
+  frameRate(30);
   backgroundImage = loadImage("BackgroundColor.png");
   for (var i = 0; i < left.length; i++) {
     left[i] = loadImage("tmp-" + i + ".gif");
@@ -73,14 +72,17 @@ void draw() {
       if (keyCode == LEFT) {
         direction = LEFT;
         fatguy.updateCharacterLeft(car);
+
       } else if (keyCode == RIGHT) {
         direction = RIGHT;
         tallSkyline.moveSkyline();
         middleSkyline.moveSkyline();
         shortSkyline.moveSkyline();
         fatguy.updateCharacterRight(car);
+
       } else if (keyCode == UP) {
         fatguy.updateCharacterUp(car);
+    
       }
 
     }
@@ -94,22 +96,22 @@ void draw() {
 
 
 
-  }
-  else {
+  } else {
     background(0);
     textAlign(CENTER);
     fill(255);
     textSize(14);
-    text("GAME OVER",WINDOW_WIDTH/2,WINDOW_HEIGHT/2);
+    text("GAME OVER", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
     textSize(12);
-    text("Click to start over",WINDOW_WIDTH/2,WINDOW_HEIGHT/2 + 20);
+    text("Click to start over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 20);
 
   }
 }
-void mouseClicked(){
+
+void mouseClicked() {
   var health = fatguy.getHealth();
   console.log("mouse");
-  if(health <= 0){
+  if (health <= 0) {
     console.log("mouse-pressed");
     fatguy.setHealth();
     fatguy.setX();
@@ -143,16 +145,17 @@ class Character {
 
   void drawCharacter(var direction) {
     stroke();
-    if(healthNumber > 67){
+    if (healthNumber > 67) {
       fill(48, 232, 60);
     }
-    if(healthNumber <= 67 && healthNumber > 33){
+    if (healthNumber <= 67 && healthNumber > 33) {
       fill(216, 232, 47);
     }
-    if(healthNumber <= 33){
+    if (healthNumber <= 33) {
       fill(255, 0, 0);
     }
     rect(775, 10, healthNumber * 2, 20);
+
     if (direction == LEFT) {
       image(left[characterNumber], xPos, yPos, 100, 100);
     } else if (direction == RIGHT) {
@@ -191,15 +194,7 @@ class Character {
     if (characterNumber == left.length) {
       characterNumber = 0;
     }
-    // if(isJumping){
-    //   yVel += gravity;
-    //   yPos += yVel;
-    //   if(yPos > characterGround) {
-    //     yPos = characterGround;
-    //     yVel = 0;
-    //     isJumping = false;
-    //   }
-    // }
+
     xPos -= speed
 
   }
@@ -219,15 +214,7 @@ class Character {
     if (characterNumber == right.length) {
       characterNumber = 0;
     }
-    // if(isJumping){
-    //   yVel += gravity;
-    //   yPos += yVel;
-    //   if(yPos > characterGround) {
-    //     yPos = characterGround;
-    //     yVel = 0;
-    //     isJumping = false;
-    //   }
-    // }
+
     xPos += speed
   }
 
@@ -243,19 +230,7 @@ class Character {
       healthNumber -= 20;
       car.setXPosition();
     }
-    // characterNumber++;
-    // if (xPos > WINDOW_WIDTH + 50) {
-    //   xPos = -50;
-    // }
-    // if (xPos < -50) {
-    //   xPosition = WINDOW_WIDTH + 50;
-    // }
-    // if (characterNumber == right.length) {
-    //   characterNumber = 0;
-    // }
-    // if (yPos <= 425) {
-    //   yPos += 100;
-    // }
+
   }
   int findYPosition() {
     return yPos;
@@ -289,9 +264,7 @@ class Skyline {
   var xPosition, speed, skylineUpbound, skylineLowbound;
   var skylineColor;
 
-  /**
-   * Constructs a SkyLine with enough buildings to fill the screen
-   */
+
   Skyline(float s,
     var sl,
       var su,
@@ -302,22 +275,20 @@ class Skyline {
     skylineUpbound = su;
     skylineLowbound = sl;
     skylineColor = sc;
-    fillSkyline(); //when a Skyline is created it automatically has enough buildings to fill the screen
+    fillSkyline();
   }
 
   void moveSkyline() {
-    //TODO:update and draw the skyline, add buildings as buildings leave the screen
+
     drawSkyline();
     update();
     addBuilding();
 
   }
 
-  /**
-   * Draws the skyline, placing it on the screen
-   */
+
   void drawSkyline() {
-    //TODO:loop through buildingList and draw each Building
+
     for (var i = 0; i < buildingList.size(); i++) {
       var building = buildingList.get(i);
       if (building.xPosition < -100) {
@@ -328,11 +299,9 @@ class Skyline {
     }
   }
 
-  /**
-   * Updates the position of each Building in the SkyLine
-   */
+
   void update() {
-    //TODO:loop through buildingList and update each Building
+
     for (var s = 0; s < buildingList.size(); s++) {
       var building = buildingList.get(s);
       building.update();
@@ -340,11 +309,7 @@ class Skyline {
     }
   }
 
-  /**
-   * Adds a building of random building width and then updates
-   * the x position to be the right corner of the building in order
-   * to have the next building not overlap
-   */
+
   void addBuilding() {
     var randomBuildingWidth = random(50, 100);
     Building currentBuilding = new Building(xPosition, randomBuildingWidth, skylineUpbound,
@@ -355,23 +320,16 @@ class Skyline {
 
 
   void fillSkyline() {
-    //TODO: add enough buildings to fill the screen
-    // hint - use xPosition and WINDOW_WIDTH to figure out when you have
-    //        enough buildings
+
     while (xPosition < WINDOW_WIDTH - 10) {
       addBuilding();
     }
-    // while (buildingList.get(0).xPosition < -100) {
-    //   buildingList.remove(0);
-    // }
+
     console.log(buildingList.size());
   }
 }
 
-/**
- * Represents a building, providing a way to place a building and move
- * it across the screen.
- */
+
 class Building {
 
   var xPosition, yPosition, buildingHeight, buildingWidth;
@@ -401,14 +359,12 @@ class Building {
   }
 
   void drawAndUpdate() {
-    // var testSpeed = 5;
+
     drawBuilding();
     update();
   }
 
-  /**
-   * Draws a building always attached to the bottom of the screen
-   */
+
   void drawBuilding() {
     fill(buildingColor);
     rect(xPosition, WINDOW_HEIGHT - buildingHeight - 50, buildingWidth, buildingHeight);
@@ -441,14 +397,12 @@ class Moon {
   }
 
   void drawAndUpdateMoon() {
-    // var testSpeed = 5;
+
     drawMoon();
     update();
   }
 
-  /**
-   * Draws a building always attached to the bottom of the screen
-   */
+
   void drawMoon() {
     noStroke();
     fill(color(255, 255, 204));
@@ -503,7 +457,7 @@ class Danger {
   Danger() {
     xPosition = 900;
     yPosition = WINDOW_HEIGHT - 120;
-    speed = random(3,5);
+    speed = random(3, 5);
     dangerNumber = 0;
   }
 
